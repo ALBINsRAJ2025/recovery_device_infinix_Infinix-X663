@@ -95,6 +95,9 @@ TARGET_BOARD_PLATFORM := mt6768
 # VNDK
 BOARD_VNDK_VERSION := current
 
+# Properties
+TARGET_SYSTEM_PROP += $(COMMON_PATH)/system.prop
+
 # Init
 TARGET_INIT_VENDOR_LIB := libinit_Infinix-X663
 TARGET_RECOVERY_DEVICE_MODULES := libinit_Infinix-X663
