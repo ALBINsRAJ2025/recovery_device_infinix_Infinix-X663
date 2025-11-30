@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TWRP 12.1 - Infinix Note 11 (X663) - Custom Recovery</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2196F3;
+            --primary-dark: #1976D2;
+            --primary-light: #42A5F5;
+            --success-color: #4CAF50;
+            --warning-color: #FF9800;
+            --danger-color: #F44336;
+            --bg-primary: #0D1117;
+            --bg-secondary: #161B22;
+            --bg-tertiary: #21262D;
+            --text-primary: #E6EDF3;
+            --text-secondary: #8B949E;
+            --border-color: #30363D;
+            --accent-blue: #58A6FF;
+            --accent-green: #3FB950;
+            --accent-orange: #FB8500;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 1rem;
+        }
+
+        .header-specs {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .spec {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .spec strong {
+            display: block;
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.7);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.25rem;
+        }
+
+        /* Navigation */
+        nav {
+            background-color: var(--bg-secondary);
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            gap: 0;
+            overflow-x: auto;
+        }
+
+        nav a {
+            padding: 0.5rem 1rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--accent-blue);
+            border-bottom-color: var(--accent-blue);
+        }
+
+        nav a.active {
+            color: var(--accent-blue);
+            border-bottom-color: var(--accent-blue);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Disclaimer */
+        .disclaimer {
+            background-color: var(--bg-tertiary);
+            border-left: 4px solid var(--danger-color);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+        }
+
+        .disclaimer h3 {
+            color: var(--danger-color);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .disclaimer p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Section Styles */
+        section {
+            margin-bottom: 3rem;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary-color);
+            color: var(--accent-blue);
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent-blue);
+        }
+
+        /* Table Styles */
+        .specs-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background-color: var(--bg-tertiary);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .specs-table th {
+            background-color: var(--bg-tertiary);
+            color: var(--accent-blue);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .specs-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .specs-table tr:hover {
+            background-color: rgba(33, 150, 243, 0.05);
+        }
+
+        .specs-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Feature Status Badges */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .status-working {
+            background-color: rgba(76, 175, 80, 0.15);
+            color: var(--accent-green);
+            border: 1px solid rgba(76, 175, 80, 0.3);
+        }
+
+        .status-wip {
+            background-color: rgba(255, 152, 0, 0.15);
+            color: var(--accent-orange);
+            border: 1px solid rgba(255, 152, 0, 0.3);
+        }
+
+        .status-broken {
+            background-color: rgba(244, 67, 54, 0.15);
+            color: #FF5252;
+            border: 1px solid rgba(244, 67, 54, 0.3);
+        }
+
+        .status-icon {
+            font-size: 1rem;
+        }
+
+        /* Code Block */
+        .code-block {
+            background-color: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            position: relative;
+        }
+
+        .code-block::before {
+            content: 'bash';
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            line-height: 1.4;
+        }
+
+        code.inline {
+            background-color: rgba(88, 166, 255, 0.1);
+            color: var(--accent-blue);
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.85rem;
+        }
+
+        /* Feature Table */
+        .feature-table {
+            width: 100%;
+            margin: 1.5rem 0;
+        }
+
+        .feature-table tr {
+            display: grid;
+            grid-template-columns: 1fr 150px;
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem;
+        }
+
+        .feature-table tr:hover {
+            background-color: rgba(33, 150, 243, 0.05);
+        }
+
+        .feature-table td {
+            padding: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .feature-table td:last-child {
+            justify-content: flex-end;
+        }
+
+        /* Instruction Steps */
+        .steps {
+            margin: 2rem 0;
+        }
+
+        .step {
+            display: grid;
+            grid-template-columns: 50px 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .step:last-child {
+            border-bottom: none;
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .step-content h4 {
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-content p {
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+        }
+
+        .step-content ul {
+            margin-left: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        .step-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Button Styles */
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+            box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: var(--bg-tertiary);
+            color: var(--accent-blue);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent-blue);
+            box-shadow: 0 4px 12px rgba(33, 150, 243, 0.2);
+        }
+
+        /* Info Box */
+        .info-box {
+            background-color: rgba(33, 150, 243, 0.1);
+            border-left: 4px solid var(--primary-color);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+            color: var(--text-secondary);
+        }
+
+        .info-box strong {
+            color: var(--accent-blue);
+        }
+
+        /* Credits */
+        .credits {
+            background-color: var(--bg-tertiary);
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            margin-top: 3rem;
+        }
+
+        .credits h3 {
+            margin-top: 0;
+        }
+
+        .credits ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .credits li {
+            padding: 0.5rem 0;
+            color: var(--text-secondary);
+        }
+
+        .credits li::before {
+            content: '→ ';
+            color: var(--accent-blue);
+            margin-right: 0.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--bg-secondary);
+            padding: 2rem;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            color: var(--text-secondary);
+            margin-top: 3rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            h2 {
+                font-size: 1.4rem;
+            }
+
+            .header-specs {
+                gap: 1rem;
+            }
+
+            .nav-container {
+                gap: 0.5rem;
+            }
+
+            nav a {
+                padding: 0.5rem 0.75rem;
+                font-size: 0.8rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .feature-table tr {
+                grid-template-columns: 1fr 120px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* Utility */
+        .text-center {
+            text-align: center;
+        }
+
+        .mt-2 {
+            margin-top: 2rem;
+        }
+
+        .mb-2 {
+            margin-bottom: 2rem;
+        }
+
+        .highlight {
+            color: var(--accent-blue);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="logo">📱</div>
+            <h1>TWRP 12.1</h1>
+            <p class="subtitle">Custom Recovery for Infinix Note 11 (X663)</p>
+            <div class="header-specs">
+                <div class="spec"><strong>Device</strong> Infinix Note 11</div>
+                <div class="spec"><strong>Model</strong> X663</div>
+                <div class="spec"><strong>Chipset</strong> MediaTek Helio G88</div>
+                <div class="spec"><strong>Android</strong> 12</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="#overview" class="nav-link">Overview</a>
+            <a href="#disclaimer" class="nav-link">Disclaimer</a>
+            <a href="#specs" class="nav-link">Specifications</a>
+            <a href="#features" class="nav-link">Features</a>
+            <a href="#build" class="nav-link">Build</a>
+            <a href="#flash" class="nav-link">Installation</a>
+            <a href="#credits" class="nav-link">Credits</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Overview -->
+        <section id="overview">
+            <h2>📋 Overview</h2>
+            <p>A clean, optimized, and fully functional <span class="highlight">TWRP 12.1</span> recovery for <span class="highlight">Infinix Note 11 (X663)</span>, with proper <span class="highlight">dynamic partition</span> support, <span class="highlight">data decryption</span>, and <span class="highlight">A/B slot</span> handling.</p>
+            <p>This custom recovery provides a complete solution for device management, including backup/restore capabilities, partition management, and custom ROM flashing with full support for modern Android partition structures.</p>
+        </section>
+
+        <!-- Disclaimer -->
+        <section id="disclaimer">
+            <div class="disclaimer">
+                <h3>⚠️ Important Disclaimer</h3>
+                <p><strong>Unlocking the bootloader and flashing custom images may void your warranty and can brick your device if done incorrectly.</strong></p>
+                <p>Make sure you understand all the steps and always keep a full backup of your important data before proceeding. We are not responsible for any damage to your device.</p>
+            </div>
+        </section>
+
+        <!-- Device Information -->
+        <section id="specs">
+            <h2>🔧 Device Information</h2>
+            <table class="specs-table">
+                <thead>
+                    <tr>
+                        <th>Specification</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Device Name</td>
+                        <td>Infinix Note 11</td>
+                    </tr>
+                    <tr>
+                        <td>Model</td>
+                        <td><span class="highlight">X663</span></td>
+                    </tr>
+                    <tr>
+                        <td>Chipset</td>
+                        <td>MediaTek Helio G88 (MT6769H / MT6768)</td>
+                    </tr>
+                    <tr>
+                        <td>Android Version</td>
+                        <td>12</td>
+                    </tr>
+                    <tr>
+                        <td>Partitions</td>
+                        <td>Dynamic (super.img)</td>
+                    </tr>
+                    <tr>
+                        <td>Recovery Layout</td>
+                        <td>Boot → Recovery (no dedicated recovery partition)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Feature Status -->
+        <section id="features">
+            <h2>✨ Feature Status</h2>
+
+            <h3>Working ✅</h3>
+            <table class="feature-table">
+                <tr>
+                    <td>Touchscreen</td>
+                    <td><span class="status-badge status-working"><span class="status-icon">✅</span> Working</span></td>
+                </tr>
+                <tr>
+                    <td>Display Rendering</td>
+                    <td><span class="status-badge status-working"><span class="status-icon">✅</span> Working</span></td>
+                </tr>
+                <tr>
+                    <td>Flashing ZIP / IMG</td>
+                    <td><span class="status-badge status-working"><span class="status-icon">✅</span> Working</span></td>
+                </tr>
+                <tr>
+                    <td>Data Decryption (with / without password / lockscreen)</td>
+                    <td><span class="status-badge status-working"><span class="status-icon">✅</span> Working</span></td>
+                </tr>
+                <tr>
+                    <td>Dynamic Partitions</td>
+                    <td><span class="status-badge status-working"><span class="status-icon">✅</span> Working</span></td>
+                </tr>
+                <tr>
+                    <td>Slot Selection (A/B)</td>
+                    <td><span class="status-badge status-working"><span class="status-icon">✅</span> Working</span></td>
+                </tr>
+                <tr>
+                    <td>ADB</td>
+                    <td><span class="status-badge status-working"><span class="status-icon">✅</span> Working</span></td>
+                </tr>
+                <tr>
+                    <td>MTP</td>
+                    <td><span class="status-badge status-working"><span class="status-icon">✅</span> Working</span></td>
+                </tr>
+                <tr>
+                    <td>Vibration</td>
+                    <td><span class="status-badge status-working"><span class="status-icon">✅</span> Working</span></td>
+                </tr>
+                <tr>
+                    <td>Reboot Menu</td>
+                    <td><span class="status-badge status-working"><span class="status-icon">✅</span> Working</span></td>
+                </tr>
+                <tr>
+                    <td>Backup & Restore (System / Vendor / Product / Boot / Super)</td>
+                    <td><span class="status-badge status-working"><span class="status-icon">✅</span> Working</span></td>
+                </tr>
+            </table>
+
+            <h3>Work In Progress 🧪</h3>
+            <table class="feature-table">
+                <tr>
+                    <td>USB OTG</td>
+                    <td><span class="status-badge status-wip"><span class="status-icon">🧪</span> WIP</span></td>
+                </tr>
+                <tr>
+                    <td>Flashing GSI</td>
+                    <td><span class="status-badge status-wip"><span class="status-icon">🧪</span> WIP</span></td>
+                </tr>
+            </table>
+        </section>
+
+        <!-- Build Instructions -->
+        <section id="build">
+            <h2>🔨 Build Instructions</h2>
+            <p>Requires a working Android/TWRP build environment (Ubuntu/Debian recommended).</p>
+
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Initialize TWRP Source</h4>
+                        <p>Create a working directory and initialize the TWRP manifest repository.</p>
+                        <div class="code-block">
+                            <code>mkdir ~/twrp-12.1-infinix-x663<br>
+cd ~/twrp-12.1-infinix-x663<br>
+<br>
+repo init -u https://github.com/minimal-manifest-twrp/platform_manifest_twrp_aosp.git -b twrp-12.1<br>
+repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j"$(nproc --all)"</code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Clone the Device Tree</h4>
+                        <p>Clone the Infinix X663 device tree from the repository.</p>
+                        <div class="code-block">
+                            <code>git clone https://github.com/ALBINsRAJ2025/recovery_device_infinix_Infinix-X663 -b twrp12.1-fw-v363 device/infinix/Infinix-X663</code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Initialize Build Environment</h4>
+                        <p>Source the build environment setup script.</p>
+                        <div class="code-block">
+                            <code>. build/envsetup.sh</code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>Select Build Target</h4>
+                        <p>Choose the build target for the Infinix Note 11.</p>
+                        <div class="code-block">
+                            <code>lunch twrp_X663-eng</code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <h4>Build the Boot Image</h4>
+                        <p>Compile the TWRP boot image (TWRP-in-boot).</p>
+                        <div class="code-block">
+                            <code>mka bootimage</code>
+                        </div>
+                        <p style="margin-top: 0.75rem; color: var(--text-secondary);">The resulting image will be located at:</p>
+                        <div class="code-block" style="margin-top: 0.5rem;">
+                            <code>out/target/product/Infinix-X663/boot.img</code>
+                        </div>
+                        <p style="margin-top: 0.75rem; color: var(--text-secondary);"><strong>Optional rename:</strong></p>
+                        <div class="code-block" style="margin-top: 0.5rem;">
+                            <code>mv out/target/product/Infinix-X663/boot.img twrp_X663_boot.img</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <strong>💡 Tip:</strong> Build time varies depending on your system resources. First-time builds take significantly longer. Ensure you have at least 150GB of free disk space.
+            </div>
+        </section>
+
+        <!-- Flashing Instructions -->
+        <section id="flash">
+            <h2>📱 Flashing / Booting (Fastboot)</h2>
+            <p>Make sure your bootloader is unlocked and proper USB drivers are installed.</p>
+
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Reboot to Bootloader</h4>
+                        <p>Connect your device via USB and reboot to fastboot mode.</p>
+                        <div class="code-block">
+                            <code>adb reboot bootloader</code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Flash vbmeta (Optional)</h4>
+                        <p>If required by your ROM, disable verification and flash vbmeta.</p>
+                        <div class="code-block">
+                            <code>fastboot --disable-verity --disable-verification flash vbmeta vbmeta.img</code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Flash TWRP to Boot</h4>
+                        <p>Flash the compiled TWRP image to the boot partition.</p>
+                        <div class="code-block">
+                            <code>fastboot flash boot twrp_X663_boot.img</code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>Boot to Recovery</h4>
+                        <p>Reboot your device directly into TWRP recovery.</p>
+                        <div class="code-block">
+                            <code>fastboot reboot recovery</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h3>What You Can Do in TWRP</h3>
+            <div style="background-color: var(--bg-tertiary); padding: 1.5rem; border-radius: 8px; border-left: 4px solid var(--accent-green);">
+                <ul style="margin: 0; padding-left: 1.5rem;">
+                    <li style="margin-bottom: 0.75rem;"><strong>Take Full Backups:</strong> Backup Boot, Super, System, Vendor, and Product partitions</li>
+                    <li style="margin-bottom: 0.75rem;"><strong>Flash Custom ROMs:</strong> Install modified or alternative Android ROMs</li>
+                    <li style="margin-bottom: 0.75rem;"><strong>Install Magisk:</strong> Root your device and install custom modules</li>
+                    <li style="margin-bottom: 0.75rem;"><strong>Flash Kernels:</strong> Install custom kernels and optimization modules</li>
+                    <li style="margin-bottom: 0.75rem;"><strong>Manage Partitions:</strong> Wipe, format, and manage device partitions</li>
+                    <li style="margin-bottom: 0.75rem;"><strong>Advanced Operations:</strong> Resize partitions, mount filesystems, and more</li>
+                </ul>
+            </div>
+
+            <div class="info-box" style="margin-top: 1.5rem;">
+                <strong>⚡ Important:</strong> Make sure to create a full backup of your current system before flashing anything. Always keep your important data backed up to a safe location.
+            </div>
+        </section>
+
+        <!-- Credits -->
+        <section id="credits">
+            <div class="credits">
+                <h3>🙌 Credits & Acknowledgments</h3>
+                <ul>
+                    <li><strong>TeamWin Recovery Project (TWRP)</strong> - Open-source custom recovery platform</li>
+                    <li><strong>MediaTek / Infinix Development Community</strong> - Device support and resources</li>
+                    <li><strong>ALBINsRAJ2025</strong> - Device tree maintainer and developer</li>
+                    <li><strong>Community Developers</strong> - Testing, feedback, and contributions</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Additional Resources -->
+        <section style="margin-top: 3rem;">
+            <h2>📚 Additional Resources</h2>
+            <div class="button-group">
+                <a href="https://twrp.me" class="btn" target="_blank">🌐 Official TWRP Website</a>
+                <a href="https://github.com/ALBINsRAJ2025/recovery_device_infinix_Infinix-X663" class="btn" target="_blank">💻 GitHub Repository</a>
+                <a href="#build" class="btn btn-secondary">📖 Build Guide</a>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 TWRP 12.1 for Infinix Note 11 (X663). All rights reserved.</p>
+        <p style="font-size: 0.85rem; margin-top: 0.5rem;">This is a community-maintained custom recovery. Use at your own risk.</p>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                const href = link.getAttribute('href');
+                if (href.startsWith('#')) {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                        document.querySelectorAll('nav a').forEach(l => l.classList.remove('active'));
+                        link.classList.add('active');
+                    }
+                }
+            });
+        });
+
+        // Set active link on scroll
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('nav a');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').slice(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Copy code on click (optional enhancement)
+        document.querySelectorAll('.code-block').forEach(block => {
+            block.addEventListener('click', () => {
+                const code = block.querySelector('code').innerText;
+                navigator.clipboard.writeText(code).then(() => {
+                    const originalText = block.style.borderColor;
+                    block.style.borderColor = 'var(--accent-green)';
+                    setTimeout(() => {
+                        block.style.borderColor = originalText;
+                    }, 1500);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
