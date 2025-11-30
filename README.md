@@ -12,6 +12,7 @@ Chipset	MediaTek Helio G88 (MT6769H)
 Android Version	11 / 12
 Partitions	Dynamic (super.img)
 Recovery	No dedicated recovery partition (boot → recovery)
+
 ⭐ Feature Status
 🟢 Working
 Feature	Status
