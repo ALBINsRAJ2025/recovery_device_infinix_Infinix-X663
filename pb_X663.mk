@@ -4,14 +4,14 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
+# Inherit some common PBRP stuff.
+$(call inherit-product, vendor/pb/config/common.mk)
+
 # Inherit from Infinix-X663 device
 $(call inherit-product, device/infinix/Infinix-X663/device.mk)
 
-# Inherit some common TWRP stuff.
-$(call inherit-product, vendor/twrp/config/common.mk)
-
 # Product Specifics
-PRODUCT_NAME := twrp_X663
+PRODUCT_NAME := pb_X663
 PRODUCT_DEVICE := Infinix-X663
 PRODUCT_BRAND := Infinix
 PRODUCT_MODEL := Infinix X663
