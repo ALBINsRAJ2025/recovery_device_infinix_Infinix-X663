@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-DEVICE_PATH := device/infinix/Infinix-X663
+DEVICE_PATH := device/infinix/X663
 
 TARGET_RECOVERY_DEVICE_DIRS := \
     $(DEVICE_PATH)
