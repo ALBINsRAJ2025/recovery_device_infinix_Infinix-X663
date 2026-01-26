@@ -39,9 +39,9 @@ Custom TWRP (Team Win Recovery Project) for Infinix Note 11 X663 (X663).
 ## Requirements
 
 - Bootloader must be unlocked
-- Must be on firmware: v363
+- Must be on firmware: v670
 - Boot partition: 96MB (recommended via repartitioner) → [📥 Download Repartitioner](https://t.me/x663development/16)
-- Old TWRP → [📥 Download Old TWRP](https://t.me/x663development/9)
+- Old TWRP → [📥 Download Old TWRP](https://t.me/x663development/39)
 
 ---
 
@@ -147,7 +147,7 @@ Found an issue? Please report it with:
 
 ```
 Device: Infinix Note 11 X663
-Firmware: v363 or higher
+Firmware: v670
 Issue: [Clear description]
 Steps: [How to reproduce]
 Logs: [If available]
