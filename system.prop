@@ -1,17 +1,31 @@
+# ==============================================================================
+# Platform / Hardware Identity
+# ==============================================================================
 ro.mediatek.platform=MT6768
 ro.hardware=mt6768
+ro.treble.enabled=true
+
+# ==============================================================================
+# Trustonic / Gatekeeper / Keymaster (MTK TEE)
+# ==============================================================================
 ro.hardware.gatekeeper=trustonic
 ro.hardware.kmsetkey=trustonic
 ro.mtk_trustonic_tee_support=1
-ro.crypto.volume.filenames_mode=aes-256-cts
-ro.sys.usb.storage.type=mtp
+ro.vendor.mtk_trustonic_tee_support=1
+
+# ==============================================================================
+# File-Based Encryption (FBE) / Metadata Encryption
+# ==============================================================================
 ro.crypto.metadata.enabled=true
 ro.crypto.support_metadata_encrypt=true
 ro.crypto.uses_fs_ioc_add_encryption_key=true
+
+# (Optional / legacy; keep only if you have a specific reason)
+ro.crypto.volume.filenames_mode=aes-256-cts
+
+# ==============================================================================
+# USB / MTP
+# ==============================================================================
+ro.sys.usb.storage.type=mtp
 ro.sys.usb.mtp.whql.enable=0
-ro.treble.enabled=true
-ro.vendor.mtk_trustonic_tee_support=1
-
-
-
 
