@@ -1,10 +1,6 @@
 # Allow recovery to interact with dm devices (common for FBE + dynamic partitions)
 allow recovery dm_device:blk_file ioctl;
 
-# TWRP reading/writing its settings + media paths (twrps folders)
-allow recovery media_rw_data_file:dir  { search read write add_name create getattr };
-allow recovery media_rw_data_file:file { getattr open read write create setattr };
-
 # Common: recovery accessing system data dirs/files during scans
 allow recovery system_data_file:dir  { getattr open read search };
 allow recovery system_data_file:file { getattr open read };
