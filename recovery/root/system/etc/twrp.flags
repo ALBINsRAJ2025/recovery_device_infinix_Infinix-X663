@@ -20,6 +20,7 @@
 /otp                emmc      /dev/block/platform/bootdevice/by-name/otp                    flags=display="Otp"
 /seccfg             emmc      /dev/block/platform/bootdevice/by-name/seccfg                 flags=display="Seccfg"
 /tranfs             ext4      /dev/block/platform/bootdevice/by-name/tranfs                 flags=display="Tranfs"
+/metadata           ext4      /dev/block/platform/bootdevice/by-name/md_udc                 flags=storage;display="Metadata"
 
 # IMEI and modem related
 # below four partitions are ext4, but we are using only for backup so emmc
