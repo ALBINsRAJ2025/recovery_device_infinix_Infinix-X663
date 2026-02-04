@@ -1,0 +1,2 @@
+# Recovery-only: prevent update_engine entrypoint denial from blocking.
+permissive update_engine;
