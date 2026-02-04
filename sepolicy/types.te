@@ -1,8 +1,8 @@
 # X663 recovery policy: define vendor/Transsion/MTK labels so they are not left unmapped.
-# These are type declarations only (no permissions granted).
+# Type declarations only (no permissions granted).
 
 type aee_core_data_file, file_type;
-type aee_core_forwarder_exec, exec_type, file_type;
+type aee_core_forwarder_exec, file_type;
 type aee_core_vendor_file, file_type;
 type aee_dipdebug_vendor_file, file_type;
 type aee_dumpsys_data_file, file_type;
@@ -28,52 +28,28 @@ type data_vendor_flicker_file, file_type;
 type data_vendor_hmp_file, file_type;
 
 type devmap_cache_file, file_type;
-
-type drm_data_file, file_type;
 type ffu_data_file, file_type;
 
 type gmscore_data_file, file_type;
 
 type gx_fp_data_file, file_type;
 
-type hal_camera_default_exec, exec_type, file_type;
-
-type hal_fingerprint_default_exec, exec_type, file_type;
-
-type hal_keymaster_default_exec, exec_type, file_type;
-type hal_keymaster_trustonic_exec, exec_type, file_type;
-
-type hal_power_default_exec, exec_type, file_type;
-
-type hal_sensors_default_exec, exec_type, file_type;
-
-type hal_vibrator_default_exec, exec_type, file_type;
-
 type hwaremote_data_file, file_type;
-
 type huan_data_file, file_type;
-
 type ifaas_data_file, file_type;
-
 type ims_data_file, file_type;
-
 type imei_data_file, file_type;
-
 type intel_fp_data_file, file_type;
 
 type kgsl_data_file, file_type;
-
 type lm_data_file, file_type;
 
 type mobicore_data_file, file_type;
 
-type mtk_bsp_service_exec, exec_type, file_type;
+type mtk_bsp_service_exec, file_type;
 
 type nvdata_file, file_type;
-
 type nvram_data_file, file_type;
-
-type persist_data_file, file_type;
 
 type protect_f_data_file, file_type;
 
@@ -90,19 +66,13 @@ type transsion_ota_data_file, file_type;
 type tranfs_file, file_type;
 
 type vendor_camera_dump_file, file_type;
-
 type vendor_log_file, file_type;
-
 type vendor_mcd_data_file, file_type;
-
 type vendor_mtk_log_file, file_type;
-
 type vendor_nlp_data_file, file_type;
 
 type vendor_persist_file, file_type;
-
 type vendor_protect_f_data_file, file_type;
-
 type vendor_soter_data_file, file_type;
-
 type vendor_widevine_data_file, file_type;
+
