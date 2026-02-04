@@ -4,14 +4,11 @@
 
 #<src>				<mnt_point>		<type>		<mnt_flags and options>															<fs_mgr_flags>
 # Logical partitions
-system				/system			erofs		ro																	wait,slotselect,logical
 system				/system			ext4		ro																	wait,slotselect,logical
-vendor				/vendor			erofs		ro																	wait,slotselect,logical
 vendor				/vendor			ext4		ro																	wait,slotselect,logical
-product				/product		erofs		ro																	wait,slotselect,logical
 product				/product		ext4		ro																	wait,slotselect,logical
-system_ext			/system_ext		erofs		ro																	wait,slotselect,logical
 system_ext			/system_ext		ext4		ro																	wait,slotselect,logical
+
 
 # Userdata partition
 /dev/block/by-name/metadata	/metadata		ext4		noatime,nosuid,nodev,discard														wait,check,formattable
@@ -23,4 +20,6 @@ system_ext			/system_ext		ext4		ro																	wait,slotselect,logical
 /dev/block/by-name/misc		/misc			emmc		defaults																defaults
 
 # Use tranfs as cache
-/dev/block/by-name/tranfs	/cache			ext4		noatime,nosuid,nodev,discard														wait,check,formattable
+#/dev/block/by-name/tranfs	/cache			ext4		noatime,nosuid,nodev,discard														wait,check,formattable
+/dev/block/by-name/boot /boot emmc defaults first_stage_mount,nofail,slotselect
+

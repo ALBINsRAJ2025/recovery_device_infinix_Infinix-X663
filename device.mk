@@ -1,40 +1,32 @@
 #
-# Copyright (C) 2022 The LineageOS Project
+# Copyright (C) 2022 The Android Open Source Project
+# Copyright (C) 2022 SebaUbuntu's TWRP device tree generator
 #
 # SPDX-License-Identifier: Apache-2.0
 #
 
-#
-# Copyright (C) 2022 The LineageOS Project
-#
-# SPDX-License-Identifier: Apache-2.0
-#
-
-# Inherit from those products. Most specific first.
-$(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit_only.mk)
-$(call inherit-product, $(SRC_TARGET_DIR)/product/base.mk)
-
-# Installs gsi keys into ramdisk, to boot a developer GSI with verified boot.
-$(call inherit-product, $(SRC_TARGET_DIR)/product/gsi_keys.mk)
-
-# Enable project quotas and casefolding for emulated storage without sdcardfs
-$(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
-
-# Enable Virtual A/B OTA
-ENABLE_VIRTUAL_AB := true
-$(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota.mk)
+LOCAL_PATH := device/infinix/X663
 
 # A/B
-AB_OTA_UPDATER := true
 AB_OTA_PARTITIONS += \
-    system_ext \
-    vendor \
-    system \
     boot \
-    vbmeta_system \
+    dtbo \
+    gz \
+    lk \
+    logo \
+    md1img \
+    preloader \
     product \
-    vbmeta_vendor
-BOARD_USES_RECOVERY_AS_BOOT := true
+    scp \
+    spmfw \
+    sspm \
+    system \
+    system_ext \
+    tee \
+    vbmeta \
+    vbmeta_system \
+    vbmeta_vendor \
+    vendor
 
 AB_OTA_POSTINSTALL_CONFIG += \
     RUN_POSTINSTALL_system=true \
@@ -42,61 +34,74 @@ AB_OTA_POSTINSTALL_CONFIG += \
     FILESYSTEM_TYPE_system=ext4 \
     POSTINSTALL_OPTIONAL_system=true
 
-PRODUCT_PACKAGES += \
-    otapreopt_script \
-    cppreopts.sh
+# Virtual A/B
+ENABLE_VIRTUAL_AB := true
+$(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota.mk)
 
 # Dynamic Partitions
 PRODUCT_USE_DYNAMIC_PARTITIONS := true
 
-# API
-PRODUCT_SHIPPING_API_LEVEL := 31
+# VNDK
 PRODUCT_TARGET_VNDK_VERSION := 31
 
-# Boot control HAL
+# API
+PRODUCT_SHIPPING_API_LEVEL := 30
+
+# Health HAL
 PRODUCT_PACKAGES += \
-    android.hardware.boot@1.2-mtkimpl \
-    android.hardware.boot@1.2-mtkimpl.recovery
+    android.hardware.health@2.1-impl \
+    android.hardware.health@2.1-service \
+    #libhealthd.$(PRODUCT_PLATFORM)
+
+# Boot Control HAL
+PRODUCT_PACKAGES += \
+    android.hardware.boot@1.2-mtkimpl.recovery \
+    android.hardware.boot@1.2-mtkimpl
 
 PRODUCT_PACKAGES_DEBUG += \
-    bootctl
+    bootctrl
 
 # Fastbootd
 PRODUCT_PACKAGES += \
     android.hardware.fastboot@1.0-impl-mock \
     fastbootd
 
-# Health Hal
+# MTK Plpath Utils
 PRODUCT_PACKAGES += \
-    android.hardware.health@2.1-impl \
-    android.hardware.health@2.1-service
-
-# Keymaster
-PRODUCT_PACKAGES += \
-    android.hardware.keymaster@4.1
-
-# Keystore Hal
-PRODUCT_PACKAGES += \
-    android.system.keystore2
-
-# Security
-PRODUCT_PACKAGES += \
-    android.hardware.security.keymint \
-    android.hardware.security.secureclock \
-    android.hardware.security.sharedsecret
-
-# Update engine
-PRODUCT_PACKAGES += \
-    update_engine \
-    update_engine_sideload \
-    update_verifier
+    mtk_plpath_utils.recovery
 
 PRODUCT_PACKAGES_DEBUG += \
     update_engine_client
 
-# Additional configs
-TW_RECOVERY_ADDITIONAL_RELINK_LIBRARY_FILES += \
-    $(TARGET_OUT_SHARED_LIBRARIES)/android.hardware.keymaster@4.1
+PRODUCT_PACKAGES += \
+    otapreopt_script \
+    cppreopts.sh \
+    update_engine \
+    update_verifier \
+    update_engine_sideload
 
+# HACK: Set vendor patch level
+PRODUCT_PRODUCT_PROPERTIES += \
+    ro.bootimage.build.date.utc=0 \
+    ro.build.date.utc=0 \
+    ro.vendor.build.security_patch=2099-12-31
+
+# OEM otacerts
+PRODUCT_EXTRA_RECOVERY_KEYS += \
+    $(LOCAL_PATH)/security/infinix
+
+
+# MTK plpath utils
+#PRODUCT_PACKAGES += \
+#    mtk_plpath_utils \
+#    mtk_plpath_utils.recovery
+
+# Recovery modules
 TARGET_RECOVERY_DEVICE_MODULES += \
-    android.hardware.keymaster@4.1
+    libkeymaster4 \
+    libkeymaster41 \
+
+RECOVERY_LIBRARY_SOURCE_FILES += \
+    $(TARGET_OUT_SHARED_LIBRARIES)/libkeymaster4.so \
+    $(TARGET_OUT_SHARED_LIBRARIES)/libkeymaster41.so \
+
