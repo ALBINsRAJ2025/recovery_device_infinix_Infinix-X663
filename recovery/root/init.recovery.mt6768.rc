@@ -86,13 +86,18 @@ on post-fs
 
     exec u:r:update_engine:s0 root root -- /system/bin/mtk_plpath_utils
     
-on post-fs-data
-    mkdir /metadata/twrp 0770 root root
-    mkdir /metadata/twrp/logs 0770 root root
-    
 on boot
-    start boot-hal-1-2
-    start health-hal-2-1
+    # Ensure /metadata is actually mounted before creating TWRP dirs
+    exec u:r:recovery:s0 root root -- /system/bin/sh -c '
+        for i in 1 2 3 4 5 6 7 8 9 10; do
+            mountpoint -q /metadata && break
+            sleep 1
+        done
+        mkdir -p /metadata/twrp/logs
+        chmod 0770 /metadata/twrp /metadata/twrp/logs
+        chown root:root /metadata/twrp /metadata/twrp/logs
     setprop tw.storage.path /metadata/twrp
     setprop tw.log.path /metadata/twrp/logs
+    start boot-hal-1-2
+    start health-hal-2-1
 
