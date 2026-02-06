@@ -20,6 +20,7 @@ BOARD_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy
 # ==============================================================================
 ALLOW_MISSING_DEPENDENCIES := true
 BUILD_BROKEN_ELF_PREBUILT_PRODUCT_COPY_FILES := true
+BUILD_BROKEN_DUP_RULES := true
 
 # ==============================================================================
 # Target Architecture (Primary + Secondary)
@@ -175,10 +176,8 @@ BOARD_HAS_LARGE_FILESYSTEM := true
 TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
 
 BOARD_USES_RECOVERY_AS_BOOT := true
-TARGET_NO_RECOVERY := true
 TW_HAS_NO_RECOVERY_PARTITION := true
 
-TW_NO_FASTBOOT_BOOT := true
 TW_INCLUDE_FASTBOOTD := true
 TW_INCLUDE_INJECTTWRP := false
 
@@ -202,6 +201,10 @@ BOARD_ROOT_EXTRA_FOLDERS += metadata
 # ==============================================================================
 # TWRP UI / Storage
 # ==============================================================================
+# Display
+TARGET_SCREEN_DENSITY := 393
+TARGET_SCREEN_HEIGHT := 1080
+TARGET_SCREEN_WIDTH := 2400
 TW_THEME := portrait_hdpi
 
 RECOVERY_SDCARD_ON_DATA := true
@@ -218,18 +221,22 @@ TW_MAX_BRIGHTNESS := 255
 # ==============================================================================
 # Excludes
 TW_EXCLUDE_DEFAULT_USB_INIT := true
-TW_EXCLUDE_APEX := true
-TW_EXCLUDE_BASH := true
-TW_EXCLUDE_NANO := true
 TW_EXCLUDE_TWRPAPP := true
-TW_EXCLUDE_SUPERSU := true
-TW_EXCLUDE_PYTHON := true
+TW_EXCLUDE_APEX := true
 
 # Includes
 TW_INCLUDE_RESETPROP := true
 TW_INCLUDE_LPTOOLS := true
-TW_USE_TOOLBOX := true
 TW_INCLUDE_NTFS_3G := true
+TW_INCLUDE_BASH := true
+TW_INCLUDE_NANO := true
+TW_INCLUDE_SUPERSU := true
+TW_INCLUDE_PYTHON := true
+TW_INCLUDE_REPACKTOOLS := true
+TW_INCLUDE_FB2PNG := true
+TW_USE_TOOLBOX := true
+TW_ENABLE_ALL_PARTITION_TOOLS := true
+DEXPREOPT_GENERATE_APEX_IMAGE := true
 
 # ==============================================================================
 # Runtime Tweaks
