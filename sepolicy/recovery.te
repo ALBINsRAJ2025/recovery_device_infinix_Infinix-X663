@@ -36,11 +36,7 @@ allow recovery misc_block_device:blk_file rw_file_perms;
 # Super partition (dynamic partitions)
 allow recovery super_block_device:blk_file rw_file_perms;
 
-# Allow recovery to execute bootctl binary
-allow recovery bootctl_exec:file { execute execute_no_trans };
-
 # Allow recovery to communicate with boot HAL
-allow recovery hal_bootctl_hwservice:hwservice_manager find;
 allow recovery hal_bootctl_default:binder { call transfer };
 
 # System property access
@@ -49,26 +45,16 @@ allow recovery init:unix_stream_socket connectto;
 
 # Sysfs access for brightness control
 allow recovery sysfs_leds:dir search;
-allow recovery sysfs_leds:file rw_file_perms;
 
 # Thermal zone for CPU temp
 allow recovery sysfs_thermal:dir search;
 allow recovery sysfs_thermal:file r_file_perms;
-
-# USB/MTP access
-allow recovery device:chr_file rw_file_perms;
-allow recovery configfs:dir create_dir_perms;
-allow recovery configfs:file create_file_perms;
 
 # Fastbootd communication
 allow recovery fastbootd:binder { call transfer };
 
 # Update engine for OTA
 allow recovery update_engine:binder { call transfer };
-
-# Keymaster/Gatekeeper for decryption
-allow recovery hal_keymaster_hwservice:hwservice_manager find;
-allow recovery hal_gatekeeper_hwservice:hwservice_manager find;
 
 # Logging
 allow recovery kernel:system syslog_read;
