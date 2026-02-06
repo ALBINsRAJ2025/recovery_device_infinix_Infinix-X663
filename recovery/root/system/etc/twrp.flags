@@ -36,7 +36,8 @@
 /usb_otg            auto      /dev/block/sda1           /dev/block/sdd                      flags=storage;wipeingui;removable;display="USB OTG"
 
 # Dynamic logical partitions (Virtual A/B, main_a active, ext4)
-/system_image       ext4      /dev/block/mapper/system_a                                    flags=display="System";backup;flashimg
-/vendor_image       ext4      /dev/block/mapper/vendor_a                                    flags=display="Vendor";backup;flashimg
-/system_ext_image   ext4      /dev/block/mapper/system_ext_a                                flags=display="System_ext";backup;flashimg
-/product_image      ext4      /dev/block/mapper/product_a                                   flags=display="Product";backup;flashimg
+/system_image       ext4      /dev/block/mapper/system                                      flags=display="System";backup;flashimg;slotselect
+/vendor_image       ext4      /dev/block/mapper/vendor                                      flags=display="Vendor";backup;flashimg;slotselect
+/system_ext_image   ext4      /dev/block/mapper/system_ext                                  flags=display="System_ext";backup;flashimg;slotselect
+/product_image      ext4      /dev/block/mapper/product                                     flags=display="Product";backup;flashimg;slotselect
+
