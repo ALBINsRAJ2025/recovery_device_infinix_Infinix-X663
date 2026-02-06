@@ -66,8 +66,10 @@ PRODUCT_PACKAGES += \
 # Boot Control HAL (CRITICAL FIX)
 # ==============================================================================
 PRODUCT_PACKAGES += \
+    android.hardware.boot@1.2-service \
     android.hardware.boot@1.2-mtkimpl \
-    android.hardware.boot@1.2-mtkimpl.recovery
+    android.hardware.boot@1.2-mtkimpl.recovery \
+    android.hardware.boot@1.2-impl-wrapper.recovery
 
 # ADDED: Boot control debugging tools
 PRODUCT_PACKAGES_DEBUG += \

@@ -199,13 +199,6 @@ TW_INCLUDE_FBE_METADATA_DECRYPT := true
 BOARD_ROOT_EXTRA_FOLDERS += metadata
 
 # ==============================================================================
-# Boot Control HAL (CRITICAL FIX for slot switching)
-# ==============================================================================
-PRODUCT_PACKAGES += \
-    android.hardware.boot@1.2-service \
-    android.hardware.boot@1.2-impl-wrapper.recovery
-
-# ==============================================================================
 # TWRP UI / Storage
 # ==============================================================================
 # Display - FIXED: Corrected swapped height/width
