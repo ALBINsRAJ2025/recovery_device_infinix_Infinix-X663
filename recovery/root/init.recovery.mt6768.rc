@@ -99,29 +99,7 @@ on boot
     '
     setprop tw.storage.path /metadata/twrp
     setprop tw.log.path /metadata/twrp/logs
-    
-    # CRITICAL FIX: Start Boot Control HAL for slot switching
     start boot-hal-1-2
     start health-hal-2-1
 
-# ADDED: Boot Control HAL Service (CRITICAL for slot switching A/B)
-service boot-hal-1-2 /system/bin/hw/android.hardware.boot@1.2-service
-    interface android.hardware.boot@1.0::IBootControl default
-    interface android.hardware.boot@1.1::IBootControl default
-    interface android.hardware.boot@1.2::IBootControl default
-    class hal
-    user root
-    group root
-    disabled
-    seclabel u:r:recovery:s0
-
-# Health HAL for battery monitoring
-service health-hal-2-1 /system/bin/hw/android.hardware.health@2.1-service
-    interface android.hardware.health@2.0::IHealth default
-    interface android.hardware.health@2.1::IHealth default
-    class hal
-    user root
-    group root
-    disabled
-    seclabel u:r:recovery:s0
 

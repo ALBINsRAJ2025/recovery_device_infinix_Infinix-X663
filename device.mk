@@ -73,7 +73,6 @@ PRODUCT_PACKAGES += \
 
 # ADDED: Boot control debugging tools
 PRODUCT_PACKAGES_DEBUG += \
-    bootctl \
     bootctrl
 
 # ==============================================================================
