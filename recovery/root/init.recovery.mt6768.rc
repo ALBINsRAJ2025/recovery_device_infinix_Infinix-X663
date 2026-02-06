@@ -104,9 +104,7 @@ on boot
     start boot-hal-1-2
     start health-hal-2-1
 
-# ==============================================================================
 # ADDED: Boot Control HAL Service (CRITICAL for slot switching A/B)
-# ==============================================================================
 service boot-hal-1-2 /system/bin/hw/android.hardware.boot@1.2-service
     interface android.hardware.boot@1.0::IBootControl default
     interface android.hardware.boot@1.1::IBootControl default

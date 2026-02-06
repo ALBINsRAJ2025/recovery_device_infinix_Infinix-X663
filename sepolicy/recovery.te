@@ -1,3 +1,4 @@
+# Recovery Domain SELinux Policy for Infinix X663
 # Allow recovery to interact with dm devices (common for FBE + dynamic partitions)
 allow recovery dm_device:blk_file ioctl;
 
@@ -14,9 +15,7 @@ allow recovery update_engine_log_data_file:file { getattr open read };
 # If MTP device node exists and recovery touches it (often permissive in logs)
 allow recovery mtp_device:chr_file ioctl;
 
-# Recovery Domain SELinux Policy for Infinix X663
 # This allows recovery to access necessary boot control and block devices
-
 # Allow recovery to access block devices
 allow recovery block_device:dir search;
 allow recovery block_device:blk_file rw_file_perms;
@@ -36,9 +35,6 @@ allow recovery misc_block_device:blk_file rw_file_perms;
 
 # Super partition (dynamic partitions)
 allow recovery super_block_device:blk_file rw_file_perms;
-
-# MTK-specific: preloader access
-allow recovery preloader_block_device:blk_file rw_file_perms;
 
 # Allow recovery to execute bootctl binary
 allow recovery bootctl_exec:file { execute execute_no_trans };
