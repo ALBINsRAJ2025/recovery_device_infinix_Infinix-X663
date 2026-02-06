@@ -13,3 +13,66 @@ allow recovery update_engine_log_data_file:file { getattr open read };
 
 # If MTP device node exists and recovery touches it (often permissive in logs)
 allow recovery mtp_device:chr_file ioctl;
+
+# Recovery Domain SELinux Policy for Infinix X663
+# This allows recovery to access necessary boot control and block devices
+
+# Allow recovery to access block devices
+allow recovery block_device:dir search;
+allow recovery block_device:blk_file rw_file_perms;
+
+# Boot control specific permissions
+allow recovery boot_block_device:blk_file rw_file_perms;
+allow recovery boot_block_device:dir search;
+
+# Metadata partition access (required for FBE decryption)
+allow recovery metadata_block_device:blk_file rw_file_perms;
+allow recovery metadata_block_device:dir search;
+allow recovery metadata_file:dir create_dir_perms;
+allow recovery metadata_file:file create_file_perms;
+
+# Misc partition (bootloader messages for A/B slot management)
+allow recovery misc_block_device:blk_file rw_file_perms;
+
+# Super partition (dynamic partitions)
+allow recovery super_block_device:blk_file rw_file_perms;
+
+# MTK-specific: preloader access
+allow recovery preloader_block_device:blk_file rw_file_perms;
+
+# Allow recovery to execute bootctl binary
+allow recovery bootctl_exec:file { execute execute_no_trans };
+
+# Allow recovery to communicate with boot HAL
+allow recovery hal_bootctl_hwservice:hwservice_manager find;
+allow recovery hal_bootctl_default:binder { call transfer };
+
+# System property access
+allow recovery property_socket:sock_file write;
+allow recovery init:unix_stream_socket connectto;
+
+# Sysfs access for brightness control
+allow recovery sysfs_leds:dir search;
+allow recovery sysfs_leds:file rw_file_perms;
+
+# Thermal zone for CPU temp
+allow recovery sysfs_thermal:dir search;
+allow recovery sysfs_thermal:file r_file_perms;
+
+# USB/MTP access
+allow recovery device:chr_file rw_file_perms;
+allow recovery configfs:dir create_dir_perms;
+allow recovery configfs:file create_file_perms;
+
+# Fastbootd communication
+allow recovery fastbootd:binder { call transfer };
+
+# Update engine for OTA
+allow recovery update_engine:binder { call transfer };
+
+# Keymaster/Gatekeeper for decryption
+allow recovery hal_keymaster_hwservice:hwservice_manager find;
+allow recovery hal_gatekeeper_hwservice:hwservice_manager find;
+
+# Logging
+allow recovery kernel:system syslog_read;
