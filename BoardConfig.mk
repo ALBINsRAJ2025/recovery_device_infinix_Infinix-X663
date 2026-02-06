@@ -199,13 +199,25 @@ TW_INCLUDE_FBE_METADATA_DECRYPT := true
 BOARD_ROOT_EXTRA_FOLDERS += metadata
 
 # ==============================================================================
+# Boot Control HAL (CRITICAL FIX for slot switching)
+# ==============================================================================
+PRODUCT_PACKAGES += \
+    android.hardware.boot@1.2-service \
+    android.hardware.boot@1.2-impl-wrapper.recovery
+
+# ==============================================================================
 # TWRP UI / Storage
 # ==============================================================================
-# Display
-TARGET_SCREEN_DENSITY := 393
-TARGET_SCREEN_HEIGHT := 1080
-TARGET_SCREEN_WIDTH := 2400
+# Display - FIXED: Corrected swapped height/width
+TARGET_SCREEN_DENSITY := 420
+TARGET_SCREEN_HEIGHT := 2400
+TARGET_SCREEN_WIDTH := 1080
 TW_THEME := portrait_hdpi
+
+# Statusbar Fixes - ADDED for proper alignment
+TW_STATUS_ICONS_ALIGN := center
+TW_Y_OFFSET := 80
+TW_H_OFFSET := -80
 
 RECOVERY_SDCARD_ON_DATA := true
 BOARD_HAS_NO_REAL_SDCARD := true
@@ -245,6 +257,14 @@ TW_FRAMERATE := 60
 TW_HAS_MTP := true
 TW_NO_FLASH_CURRENT_TWRP := true
 TW_SCREEN_BLANK_ON_BOOT := true
+
+# Additional improvements
+TW_USE_NEW_MINADBD := true
+TW_NO_CPU_TEMP := false
+TW_CUSTOM_CPU_TEMP_PATH := "/sys/class/thermal/thermal_zone0/temp"
+BOARD_SUPPRESS_EMMC_WIPE := true
+TWRP_EVENT_LOGGING := true
+TARGET_RECOVERY_DEFAULT_ROTATION := 0
 
 # ==============================================================================
 # Version / Debug

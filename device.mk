@@ -63,13 +63,15 @@ PRODUCT_PACKAGES += \
 #     libhealthd.$(PRODUCT_PLATFORM)
 
 # ==============================================================================
-# Boot Control HAL
+# Boot Control HAL (CRITICAL FIX)
 # ==============================================================================
 PRODUCT_PACKAGES += \
     android.hardware.boot@1.2-mtkimpl \
     android.hardware.boot@1.2-mtkimpl.recovery
 
+# ADDED: Boot control debugging tools
 PRODUCT_PACKAGES_DEBUG += \
+    bootctl \
     bootctrl
 
 # ==============================================================================
