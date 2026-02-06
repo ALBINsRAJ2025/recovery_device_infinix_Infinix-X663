@@ -239,11 +239,6 @@ TW_HAS_MTP := true
 TW_NO_FLASH_CURRENT_TWRP := true
 TW_SCREEN_BLANK_ON_BOOT := true
 
-# Status bar alignment / offsets
-TW_STATUS_ICONS_ALIGN := center
-TW_CUSTOM_CPU_POS := 580
-TW_CUSTOM_CLOCK_POS := 60
-
 # ==============================================================================
 # Version / Debug
 # ==============================================================================
