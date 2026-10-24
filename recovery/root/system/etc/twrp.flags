@@ -20,7 +20,6 @@
 /persistent         emmc      /dev/block/by-name/frp            flags=display="Persistent";backup=1
 /scp1               emmc      /dev/block/by-name/scp1           flags=display="Scp 1";flashimg=1
 /scp2               emmc      /dev/block/by-name/scp2           flags=display="Scp 2";flashimg=1
-/sec1               emmc      /dev/block/by-name/sec1           flags=display="Sec1"
 /spmfw              emmc      /dev/block/by-name/spmfw          flags=display="Spmfw";flashimg=1
 /sspm_1             emmc      /dev/block/by-name/sspm_1         flags=display="Sspm 1";flashimg=1
 /sspm_2             emmc      /dev/block/by-name/sspm_2         flags=display="Sspm 2";flashimg=1

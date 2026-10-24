@@ -150,7 +150,7 @@ void create_pl_path(void) {
             return;
         }
         if (create_dm(UFS_PL_B, NAME_PL_B, &path_b, start_blk, blk_cnt) != 0) {
-            if (dm.DeleteDevice(UFS_PL_A))
+            if (dm.DeleteDevice(NAME_PL_A))
                 ALOGE("Cannot delete device %s (%s)", NAME_PL_A, strerror(errno));
             return;
         }
